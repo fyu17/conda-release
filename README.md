@@ -1,11 +1,11 @@
-## Conda Release Branch Automation Tool
+# Conda Release Branch Automation Tool
 
 ## Use Guide
 
-# usage
+### usage
 main [-h] [-d Target Directory]
 
-# arguments
+### arguments
 - -h, --help show this help message and exit
 - -d, --dir Target directory (use current working directory by default)
 
