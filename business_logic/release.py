@@ -1,14 +1,17 @@
 
 import os
-import subprocess
 
+from business_logic.validate import validate_news
+from util.util import run, print_log, binary_prompt
 from util.constants import TEST_VERSION, GITHUB_REPO, REPO, PYTHON3_WRAPPER
 
-def run(command):
-  subprocess.run(command, stdout=subprocess.DEVNULL, check=True)
-
-def output(command):
-  return subprocess.check_output(command).decode("utf-8")
+def verify_change_log_prerequisites():
+  warnings = []
+  if validate_news(warnings) != True:
+    print("Change log issues found:")
+    print_log(warnings)
+    if not binary_prompt("Are you sure you wanna proceed?"):
+      raise Exception("program terminated upon warnings")
 
 def prepare_environment():
   print("Preparing release environment...")
@@ -20,6 +23,7 @@ def clone_repo():
   
 def initialize_release_branch(version):
   print("Initializing release branch...")
+  run(["python3", "-m", "rever", "check"])
   run(["git", "checkout", "-b", version])
 
 def aggregate_authors(version):
@@ -45,6 +49,7 @@ def create_release_branch(args):
     prepare_environment()
     clone_repo()
     os.chdir(dir + "/" + REPO)
+    verify_change_log_prerequisites()
     initialize_release_branch(TEST_VERSION)
     aggregate_authors(TEST_VERSION)
     generate_change_log(TEST_VERSION)
