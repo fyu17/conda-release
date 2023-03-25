@@ -4,6 +4,7 @@ import os
 from business_logic.validate import validate_news
 from util.util import run, print_log, binary_prompt
 from util.constants import TEST_VERSION, GITHUB_REPO, REPO, PYTHON3_WRAPPER
+from util.shortlog_author_comparison import *
 
 def verify_change_log_prerequisites():
   warnings = []
@@ -52,6 +53,7 @@ def create_release_branch(args):
     verify_change_log_prerequisites()
     initialize_release_branch(TEST_VERSION)
     aggregate_authors(TEST_VERSION)
+    shortlog_author_comparison()
     generate_change_log(TEST_VERSION)
     push_to_remote(TEST_VERSION)
   finally:
