@@ -2,6 +2,17 @@
 
 ## Use Guide
 
+### Docker
+To build the image, run
+```
+docker build -t <image-name> --build-arg NAME=<your-github-name> --build-arg EMAIL=<yout-github-email> .
+```
+
+Then, run the container in interactive mode:
+```
+docker run -i conda release
+```
+
 ### usage
 main [-h] [-d Target Directory]
 
