@@ -31,10 +31,11 @@ To run locally, the script needs to be installed.
 
 After that, run the generated executable:
 ```
-main [-h] [-d Target Directory] [-y]
+main [-h] [-d target_directory] [-y] release_version
 ```
 
 ### Arguments
+release_version Version for the release \ 
 -h, --help show this help message and exit \
 -d, --dir Target directory (use current working directory by default) \
--y, Automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively
+-y, --yes Automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively
