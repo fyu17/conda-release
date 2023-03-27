@@ -2,15 +2,21 @@ import os
 import re
 
 from business_logic.commit import get_commits_since_last_release
-from util.constants import REPO, TEMPLATE, NEWS_TITLE_PATTERN, COMMIT_MESSAGE_PATTERN, WARNING
+from util.constants import REPO, TEMPLATE, NEWS_TITLE_PATTERN, COMMIT_MESSAGE_PATTERN, WARNING, VERSION_PATTERN
 
 def validate_arguments(args):
   if args.dir == "":
     print("Use current working directory by default")
   
+  # validate -d argument
   dir = os.getcwd() if args.dir == "" else os.path.abspath(args.dir)
   if os.path.isdir(f"{os.path.abspath(dir)}/{REPO}"):
     raise Exception("can't clone remote repo, there is already a directory named " + REPO)
+  
+  # validate version argument
+  match = re.fullmatch(VERSION_PATTERN, args.version)
+  if match == None:
+    raise Exception(f"version {args.version} should be in format \"{VERSION_PATTERN}\"")
 
 # validate if there are missing news
 # assume that current working directory is conda/
@@ -21,7 +27,7 @@ def validate_news(warnings: list):
 
   prs_with_news = []
   for news_entry in news:
-    match = re.match(NEWS_TITLE_PATTERN, news_entry)
+    match = re.fullmatch(NEWS_TITLE_PATTERN, news_entry)
     if match == None:
       warnings.append(WARNING + f"news entry: \"{news_entry}\" should have format \"{NEWS_TITLE_PATTERN}\"")
     else:
@@ -29,7 +35,7 @@ def validate_news(warnings: list):
 
   prs = []
   for commit_message in [commit[1] for commit in commits]:
-    match = re.match(COMMIT_MESSAGE_PATTERN, commit_message)
+    match = re.fullmatch(COMMIT_MESSAGE_PATTERN, commit_message)
     if match == None:
       warnings.append(WARNING + f"commit message: \"{commit_message}\" should have format \"{COMMIT_MESSAGE_PATTERN}\"")
     else:
