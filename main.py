@@ -6,7 +6,7 @@ from business_logic.validate import *
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Automation script that creates release branches for Conda project.")
   parser.add_argument("-d", "--dir", metavar="Target Directory", help="Target directory (use current working directory by default)", type=str, default="")
-  parser.add_argument("-y", "--yes", action="store_true", help=" Automatic yes to prompts; assume \"yes\" as answer to all prompts and run non-interactively")
+  parser.add_argument("-y", action="store_true", help=" Automatic yes to prompts; assume \"yes\" as answer to all prompts and run non-interactively")
   args=parser.parse_args()
 
   try:
