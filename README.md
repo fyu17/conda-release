@@ -36,4 +36,3 @@ main [-h] [-d Target Directory] [-y]
 -h, --help show this help message and exit \
 -d, --dir Target directory (use current working directory by default) \
 -y, --yes Automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively
-
