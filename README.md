@@ -10,7 +10,7 @@ docker build -t <image-name> --build-arg NAME=<your-github-name> --build-arg EMA
 
 Then, run the container in interactive mode:
 ```
-docker run -i conda release
+docker run -i <image-name>
 ```
 
 ### usage
