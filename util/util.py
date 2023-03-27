@@ -1,10 +1,10 @@
 import subprocess
 
-def run(command):
-  subprocess.run(command, stdout=subprocess.DEVNULL, check=True)
+def run(command, shell=False):
+    subprocess.run(command, stdout=subprocess.DEVNULL, check=True, shell=shell)
 
-def output(command):
-  return subprocess.check_output(command).decode("utf-8")
+def output(command,shell=False):
+  return subprocess.check_output(command,shell=shell).decode("utf-8")
 
 def print_log(logs):
   for log in logs:

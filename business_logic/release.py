@@ -2,7 +2,7 @@
 import os
 
 from business_logic.validate import validate_news
-from util.util import run, print_log, binary_prompt
+from util.util import run, print_log, binary_prompt,output
 from util.constants import TEST_VERSION, GITHUB_REPO, REPO, PYTHON3_WRAPPER
 from util.shortlog_author_comparison import *
 
@@ -31,6 +31,34 @@ def aggregate_authors(version):
   print("Aggregating authors...")
   run(PYTHON3_WRAPPER + ["rever", "--activities", "authors", "--force", version])
 
+def author_commit():
+  print("Commiting the .authors.yml")
+  run("git reset --soft HEAD~1",shell=True)
+  run("git restore --staged --worktree .mailmap AUTHORS.md", shell=True)
+  run("git add .", shell=True)
+  run("git commit -m \"Updated .authors.yml\"",shell=True)
+
+def mailmap_commit():
+  print("Commiting the .mailmap")
+  run("git reset --soft HEAD~1",shell=True)
+  run("git restore --staged --worktree .authors.yml AUTHORS.md", shell=True)
+  run("git add .", shell=True)
+  run(" git commit -m \"Updated .mailmap\"",shell=True)
+
+def verify_commits():
+  run("git cherry -v main",shell=True)
+  num_commit = output("git cherry -v main | wc -l", shell=True)
+
+  # Convert the output to an integer
+  count = int(num_commit.strip())
+
+  # Check if the count is equal to 2
+  if count == 2:
+      print("The number of new commits equals to the expected 2")
+  else:
+      raise Exception(f"The number of commits {num_commit} is not equal 2")
+  
+
 def generate_change_log(version):
   print("Preparing change log...")
   run(PYTHON3_WRAPPER + ["rever", "--activities", "changelog", "--force", version])
@@ -52,8 +80,19 @@ def create_release_branch(args):
     os.chdir(dir + "/" + REPO)
     verify_change_log_prerequisites()
     initialize_release_branch(TEST_VERSION)
-    aggregate_authors(TEST_VERSION)
-    shortlog_author_comparison()
+
+    shortlog_author_same = False
+    while not shortlog_author_same:
+      aggregate_authors(TEST_VERSION)
+      author_commit()
+      aggregate_authors(TEST_VERSION)
+      shortlog_author_same = shortlog_author_comparison()
+      if not shortlog_author_comparison:
+        print("Repeat the above process due to discrepancies")
+
+    print("Mail map is correct now")
+    mailmap_commit()
+    verify_commits()
     generate_change_log(TEST_VERSION)
     push_to_remote(TEST_VERSION)
   finally:
