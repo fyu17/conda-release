@@ -1,8 +1,6 @@
 # Conda Release Branch Automation Tool
 
-## Use Guide
-
-### Docker
+## Docker
 Running in docker allows non-interactive (assuming yes) workflow, and is recommended.
 To build the image, run
 ```
@@ -20,14 +18,22 @@ $ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="
 $ docker run -it conda-release
 ```
 
-### usage
-main [-h] [-d Target Directory]
+## Local Usage
+Running locally is also supported. Doing so requires that the current directory does NOT have a directory named "conda" since a clone of the conda repository is needed.
 
-### arguments
-- -h, --help show this help message and exit
-- -d, --dir Target directory (use current working directory by default)
-
-## Installation Guide
+### Installation Guide
+To run locally, the script needs to be installed.
 - Install pyinstaller: ```pip3 install pyinstaller```.
 - Build executable using PyInstaller module: ```python3 -m PyInstaller main.py -F```.
-- You can then find the excutable in the ```/dist``` directory.
+- You can then find the executable in the ```/dist``` directory.
+
+After that, run the generated executable:
+```
+main [-h] [-d Target Directory] [-y]
+```
+
+### Arguments
+-h, --help show this help message and exit \
+-d, --dir Target directory (use current working directory by default) \
+-y, --yes Automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively
+
