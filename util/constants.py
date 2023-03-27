@@ -1,5 +1,5 @@
 REPO = "conda"
-GITHUB_REPO = "https://github.com/fyu17/conda.git"
+GITHUB_REPO = "git@github.com:fyu17/conda.git"
 PYTHON3_WRAPPER = ["python3", "-m"]
 TEMPLATE = "TEMPLATE"
 PR_BASE_ADDRESS = "https://github.com/conda/conda/pull/"
