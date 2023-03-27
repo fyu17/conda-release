@@ -75,7 +75,6 @@ def create_release_branch(args):
   dir = os.getcwd() if args.dir == "" else os.path.abspath(args.dir)
   try:
     os.chdir(dir)
-    prepare_environment()
     clone_repo()
     os.chdir(dir + "/" + REPO)
     verify_change_log_prerequisites()
@@ -88,7 +87,7 @@ def create_release_branch(args):
       aggregate_authors(TEST_VERSION)
       shortlog_author_same = shortlog_author_comparison()
       if not shortlog_author_comparison:
-        print("Repeat the above process due to discrepancies")
+        print("Repeating the above process due to discrepancies")
 
     print("Mail map is correct now")
     mailmap_commit()
