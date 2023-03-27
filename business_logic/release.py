@@ -11,7 +11,7 @@ def verify_change_log_prerequisites(args):
   if validate_news(warnings) != True:
     print("Change log issues found:")
     print_log(warnings)
-    if not args.y:
+    if not args.yes:
       if not binary_prompt("Are you sure you wanna proceed?"):
         raise Exception("program terminated upon warnings")
 
