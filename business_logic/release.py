@@ -3,7 +3,7 @@ import os
 
 from business_logic.validate import validate_news
 from util.util import run, print_log, binary_prompt,output
-from util.constants import TEST_VERSION, GITHUB_REPO, REPO, PYTHON3_WRAPPER
+from util.constants import GITHUB_REPO, REPO, PYTHON3_WRAPPER
 from util.shortlog_author_comparison import *
 
 def verify_change_log_prerequisites(args):
@@ -25,7 +25,7 @@ def clone_repo():
   
 def initialize_release_branch(version):
   print("Initializing release branch...")
-  run(["python3", "-m", "rever", "check"])
+  run(PYTHON3_WRAPPER + ["rever", "check"])
   run(["git", "checkout", "-b", version])
 
 def aggregate_authors(version):
@@ -79,22 +79,22 @@ def create_release_branch(args):
     clone_repo()
     os.chdir(dir + "/" + REPO)
     verify_change_log_prerequisites(args)
-    initialize_release_branch(TEST_VERSION)
+    initialize_release_branch(args.version)
 
     shortlog_author_same = False
     while not shortlog_author_same:
-      aggregate_authors(TEST_VERSION)
+      aggregate_authors(args.version)
       author_commit()
-      aggregate_authors(TEST_VERSION)
+      aggregate_authors(args.version)
       shortlog_author_same = shortlog_author_comparison()
-      if not shortlog_author_comparison:
-        print("Repeating the above process due to discrepancies")
+      if not shortlog_author_same:
+        print("Repeat the above process due to discrepancies")
 
     print("Mail map is correct now")
     mailmap_commit()
     verify_commits()
-    generate_change_log(TEST_VERSION)
-    push_to_remote(TEST_VERSION)
+    generate_change_log(args.version)
+    push_to_remote(args.version)
   finally:
     os.chdir(dir)
     clean_up()

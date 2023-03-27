@@ -8,6 +8,7 @@ WARNING = "[WARNING]: "
 # regular expressions
 NEWS_TITLE_PATTERN = "(\\d+)-.*"
 COMMIT_MESSAGE_PATTERN = ".*\\s+\\(#(\\d+)\\)"
+VERSION_PATTERN = "[a-zA-Z0-9]+\\.[a-zA-Z0-9]+\\.[a-zA-Z0-9]+"
 
 # Constants for testing
-TEST_VERSION = "0.0.0.0"
+TEST_VERSION = "0.0.0"
