@@ -4,7 +4,7 @@
 Running in docker allows non-interactive (assuming yes) workflow, and is recommended.
 To build the image, run
 ```
-docker build -t <image_name> --build-arg NAME=<git_name> --build-arg EMAIL=<git_email> --build-arg SSH_PRV_KEY="$(cat <path_to_ssh_private_key>)" .
+docker build -t <image_name> --build-arg NAME=<git_name> --build-arg EMAIL=<git_email> --build-arg SSH_PRV_KEY="$(cat <path_to_ssh_private_key>)" --build-arg VERSION=<release_version> .
 ```
 
 Then, run the container in interactive mode:
@@ -14,7 +14,7 @@ docker run -it <image-name>
 
 For example, 
 ```
-$ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="elon.musk@email.com" --build-arg SSH_PRV_KEY="$(cat ~/.ssh/id_rsa)" .
+$ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="elon.musk@email.com" --build-arg SSH_PRV_KEY="$(cat ~/.ssh/id_rsa)" --build-arg VERSION=0.0.0 .
 $ docker run -it conda-release
 ```
 
