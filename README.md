@@ -12,9 +12,11 @@ Then, run the container in interactive mode:
 docker run -it <image-name>
 ```
 
+Note that the ssh private key passed to the `docker build` command is the unique private key of the key-pair associated with the [conda repositiory](https://github.com/fyu17/conda), NOT your personal ssh key-pair to GitHub. Please contact the [maintainers](https://github.com/fyu17/conda-release/graphs/contributors) of this repository for access to the private key.
+
 For example, 
 ```
-$ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="elon.musk@email.com" --build-arg SSH_PRV_KEY="$(cat ~/.ssh/id_rsa)" --build-arg VERSION=0.0.0 .
+$ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="elon.musk@email.com" --build-arg SSH_PRV_KEY="$(cat ~/.ssh/conda_release)" --build-arg VERSION=0.0.0 .
 $ docker run -it conda-release
 ```
 
