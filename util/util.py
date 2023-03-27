@@ -12,6 +12,6 @@ def print_log(logs):
 
 def binary_prompt(question):
   answer = None
-  while answer == None or answer not in ["Yes", "No"]:
-    answer = input(question + " (Yes/No):")
-  return answer == "Yes"
+  while answer == None or answer not in ["yes", "no"]:
+    answer = input(question + " (Yes/No):").lower()
+  return answer == "yes"
