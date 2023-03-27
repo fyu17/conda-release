@@ -6,13 +6,14 @@ from util.util import run, print_log, binary_prompt,output
 from util.constants import TEST_VERSION, GITHUB_REPO, REPO, PYTHON3_WRAPPER
 from util.shortlog_author_comparison import *
 
-def verify_change_log_prerequisites():
+def verify_change_log_prerequisites(args):
   warnings = []
   if validate_news(warnings) != True:
     print("Change log issues found:")
     print_log(warnings)
-    if not binary_prompt("Are you sure you wanna proceed?"):
-      raise Exception("program terminated upon warnings")
+    if not args.y:
+      if not binary_prompt("Are you sure you wanna proceed?"):
+        raise Exception("program terminated upon warnings")
 
 def prepare_environment():
   print("Preparing release environment...")
@@ -77,7 +78,7 @@ def create_release_branch(args):
     os.chdir(dir)
     clone_repo()
     os.chdir(dir + "/" + REPO)
-    verify_change_log_prerequisites()
+    verify_change_log_prerequisites(args)
     initialize_release_branch(TEST_VERSION)
 
     shortlog_author_same = False

@@ -19,4 +19,4 @@ RUN echo "$SSH_PRV_KEY" > /root/.ssh/id_rsa && \
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 WORKDIR /conda-release 
 COPY . /conda-release
-ENTRYPOINT python3 main.py
+ENTRYPOINT python3 main.py -y
