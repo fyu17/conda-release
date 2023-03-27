@@ -11,7 +11,6 @@ RUN pip3 install re-ver
 # config git
 RUN git config --global user.name "${NAME}"
 RUN git config --global user.email "${EMAIL}"
-
 # config ssh
 RUN mkdir -p /root/.ssh && \
     chmod 700 /root/.ssh

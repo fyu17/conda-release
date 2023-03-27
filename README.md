@@ -3,6 +3,7 @@
 ## Use Guide
 
 ### Docker
+Running in docker allows non-interactive (assuming yes) workflow, and is recommended.
 To build the image, run
 ```
 docker build -t <image_name> --build-arg NAME=<git_name> --build-arg EMAIL=<git_email> --build-arg SSH_PRV_KEY="$(cat <path_to_ssh_private_key>)" .
