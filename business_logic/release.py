@@ -35,16 +35,18 @@ def aggregate_authors(version):
 def author_commit():
   print("Commiting the .authors.yml")
   run("git reset --soft HEAD~1",shell=True)
-  run("git restore --staged --worktree .mailmap AUTHORS.md", shell=True)
-  run("git add .", shell=True)
+  run("git restore --staged .mailmap AUTHORS.md", shell=True)
+  run("git checkout .mailmap AUTHORS.md", shell=True)
+  run("git add .authors.yml", shell=True)
   run("git commit -m \"Updated .authors.yml\"",shell=True)
 
 def mailmap_commit():
   print("Commiting the .mailmap")
   run("git reset --soft HEAD~1",shell=True)
-  run("git restore --staged --worktree .authors.yml AUTHORS.md", shell=True)
-  run("git add .", shell=True)
-  run(" git commit -m \"Updated .mailmap\"",shell=True)
+  run("git restore --staged .authors.yml AUTHORS.md", shell=True)
+  run("git checkout .authors.yml AUTHORS.md", shell=True)
+  run("git add .mailmap", shell=True)
+  run("git commit -m \"Updated .mailmap\"",shell=True)
 
 def verify_commits():
   run("git cherry -v main",shell=True)
