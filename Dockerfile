@@ -2,7 +2,6 @@ FROM ubuntu:20.04
 ARG NAME
 ARG EMAIL
 ARG SSH_PRV_KEY
-ARG VERSION
 RUN apt-get update && \
     apt-get upgrade -y
 RUN apt-get install -y git
@@ -20,5 +19,4 @@ RUN echo "$SSH_PRV_KEY" > /root/.ssh/id_rsa && \
 RUN ssh-keyscan github.com >> /root/.ssh/known_hosts
 WORKDIR /conda-release 
 COPY . /conda-release
-ENV VERSION_ENV="${VERSION}"
-ENTRYPOINT python3 main.py -y "$VERSION_ENV"
+ENTRYPOINT ["python3", "main.py", "-y"]
