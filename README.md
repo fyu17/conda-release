@@ -4,7 +4,7 @@
 Running in docker allows non-interactive (assuming yes) workflow, and is recommended.
 To build the image, run
 ```
-docker build -t <image_name> --build-arg NAME=<git_name> --build-arg EMAIL=<git_email> --build-arg SSH_PRV_KEY="$(cat <path_to_ssh_private_key>)" .
+docker build -t <image_name> --build-arg SSH_PRV_KEY="$(cat <path_to_ssh_private_key>)" .
 ```
 
 Then, run the container in interactive mode:
@@ -16,7 +16,7 @@ Note that the ssh private key passed to the `docker build` command is the unique
 
 For example, 
 ```
-$ docker build -t conda-release --build-arg NAME="Elon Musk" --build-arg EMAIL="elon.musk@email.com" --build-arg SSH_PRV_KEY="$(cat ~/.ssh/conda_release)" .
+$ docker build -t conda-release --build-arg SSH_PRV_KEY="$(cat ~/.ssh/conda_release)" .
 $ docker run -it conda-release 0.0.0
 ```
 
@@ -35,7 +35,7 @@ main [-h] [-d target_directory] [-y] release_version
 ```
 
 ### Arguments
-release_version version for the release \ 
+release_version version for the release \
 -h, --help show this help message and exit \
 -d, --dir target directory (use current working directory by default) \
 -y, --yes automatic yes to prompts; assume "yes" as answer to all prompts and run non-interactively

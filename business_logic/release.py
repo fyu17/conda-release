@@ -3,7 +3,7 @@ import os
 
 from business_logic.validate import validate_news
 from util.util import run, print_log, binary_prompt,output
-from util.constants import GITHUB_REPO, REPO, PYTHON3_WRAPPER
+from util.constants import GITHUB_REPO, REPO, PYTHON3_WRAPPER, USER_NAME, EMAIL
 from util.shortlog_author_comparison import *
 
 def verify_change_log_prerequisites(args):
@@ -17,7 +17,9 @@ def verify_change_log_prerequisites(args):
 
 def prepare_environment():
   print("Preparing release environment...")
-  run(["pip3", "install", "re-ver"])
+  # Impersonate Conda Bot to let rever know the Github username
+  run(["git", "config", "user.name", USER_NAME])
+  run(["git", "config", "user.email", EMAIL])
 
 def clone_repo():
   print("Cloning Conda repo...")
@@ -37,34 +39,27 @@ def author_commit():
   run("git reset --soft HEAD~1",shell=True)
   run("git restore --staged .mailmap AUTHORS.md", shell=True)
   run("git checkout .mailmap AUTHORS.md", shell=True)
-  run("git add .authors.yml", shell=True)
-  run("git commit -m \"Updated .authors.yml\"",shell=True)
+  # Commit if work tree is not clean
+  if output(["git", "diff", "HEAD"]) != "":
+    run("git add .authors.yml", shell=True)
+    run("git commit -m \"Updated .authors.yml\"",shell=True)
 
 def mailmap_commit():
   print("Commiting the .mailmap")
   run("git reset --soft HEAD~1",shell=True)
   run("git restore --staged .authors.yml AUTHORS.md", shell=True)
   run("git checkout .authors.yml AUTHORS.md", shell=True)
-  run("git add .mailmap", shell=True)
-  run("git commit -m \"Updated .mailmap\"",shell=True)
-
-def verify_commits():
-  run("git cherry -v main",shell=True)
-  num_commit = output("git cherry -v main | wc -l", shell=True)
-
-  # Convert the output to an integer
-  count = int(num_commit.strip())
-
-  # Check if the count is equal to 2
-  if count == 2:
-      print("The number of new commits equals to the expected 2")
-  else:
-      raise Exception(f"The number of commits {num_commit} is not equal 2")
+  # Commit if work tree is not clean
+  if output(["git", "diff", "HEAD"]) != "":
+    run("git add .mailmap", shell=True)
+    run("git commit -m \"Updated .mailmap\"",shell=True)
   
 
 def generate_change_log(version):
   print("Preparing change log...")
   run(PYTHON3_WRAPPER + ["rever", "--activities", "changelog", "--force", version])
+  run("git reset --hard HEAD~1", shell=True)
+  run(PYTHON3_WRAPPER + ["rever", "--force", version])
 
 def push_to_remote(version):
   print("Push release branch to remote...")
@@ -80,6 +75,7 @@ def create_release_branch(args):
     os.chdir(dir)
     clone_repo()
     os.chdir(dir + "/" + REPO)
+    prepare_environment()
     verify_change_log_prerequisites(args)
     initialize_release_branch(args.version)
 
@@ -94,7 +90,6 @@ def create_release_branch(args):
 
     print("Mail map is correct now")
     mailmap_commit()
-    verify_commits()
     generate_change_log(args.version)
     push_to_remote(args.version)
   finally:
