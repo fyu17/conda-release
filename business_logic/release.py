@@ -77,7 +77,7 @@ def create_release_branch(args):
     os.chdir(dir + "/" + REPO)
     prepare_environment()
     verify_change_log_prerequisites(args)
-    initialize_release_branch(args.verersion)
+    initialize_release_branch(args.version)
 
     shortlog_author_same = False
     while not shortlog_author_same:

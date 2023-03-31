@@ -7,7 +7,7 @@ from util.constants import REPO, TEMPLATE, NEWS_TITLE_PATTERN, COMMIT_MESSAGE_PA
 
 def validate_arguments(args):
     # Check for invalid flags
-    valid_flags = {'-d', '--dir', '-y', '--yes', '-v', '--version'}
+    valid_flags = {'-d', '--dir', '-y', '--yes', '-v', 'version', 'dir', 'yes'}
     invalid_flags = set(vars(args)) - valid_flags
     if invalid_flags:
         raise Exception(
