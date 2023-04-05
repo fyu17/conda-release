@@ -25,6 +25,7 @@ Running locally is also supported. Doing so requires that the current directory 
 
 ### Installation Guide
 To run locally, the script needs to be installed.
+- Install Rever: ```pip3 install re-ver```
 - Install pyinstaller: ```pip3 install pyinstaller```.
 - Build executable using PyInstaller module: ```python3 -m PyInstaller main.py -F```.
 - You can then find the executable in the ```/dist``` directory.
